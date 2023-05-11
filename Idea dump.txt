@@ -1,0 +1,36 @@
+Perks for bosses in a 1v5
+heroes pick 1 each and can choose from 3 tiers of risk/reward
+(percents stacks multiplicatively, heroes must pick 5 total):
+100% faster ult charge
+Double health (multiplies with base health types)
+75% of hp as added armor
+50% of hp as added shields
+30% damage reduction
+30% more damage dealt
+50% reduced cooldowns
+15hp/s constant regen
+30% faster move speed
+150% increased knockback
+100% more healing received
++50% Fire damage over 3s
+20% smaller
+Knockback immunity
+100% projectile speed
+Payload bitch with 30s respawn
+Kills grant 250hp heal
+
+Boons for heroes:
+Ult Charge +100%
+3 self-resurrects available to team (active after being dead for 5s)
+3s of not moving faster than crouch or shooting grants invisibility
+Tank has 80% more health
+Damage heroes do 30% more damage
+Support heroes move 30% faster
+Heal by 25% of damage dealt
+Boss is 15% larger
+
+
+Mods (should have approximately no absolute power gain or loss):
+20% faster movement, but 20% larger
+
+
