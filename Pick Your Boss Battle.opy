@@ -271,19 +271,19 @@ def uBoonStringHealthAbsorption():
 
 
 def uWager():
-	WagerBoss = 200 * (getNumberOfPlayers(Team.ALL) - 2)
+	WagerHeroes = 200 * (getNumberOfPlayers(Team.ALL) - 2)
 	Sum = 0
 	for Iterator in range(len(BoonsPicked)):
 		Sum += BoonsPicked[Iterator]
-		# WagerBoss += 25 * BoonsPicked[Iterator] * (getNumberOfPlayers(Team.ALL) - 1)
-	WagerBoss += 100 * (1.25 ** Sum - 1) * (getNumberOfPlayers(Team.ALL) - 1)
-	WagerHeroes = 0
+		# WagerHeroes += 25 * BoonsPicked[Iterator] * (getNumberOfPlayers(Team.ALL) - 1)
+	WagerHeroes += 100 * (1.2 ** Sum - 1) * (getNumberOfPlayers(Team.ALL) - 1)
+	WagerBoss = 0
 	Sum = 0
 	for Iterator in range(len(PerksPicked)):
 		Sum += PerksPicked[Iterator]
-		# WagerHeroes += 100 * PerksPicked[Iterator]
-	WagerHeroes += 100 * 1.3 ** Sum
-	WagerString = "Wager\nBoss {0} | {1} Heroes".format(round(WagerBoss), round(WagerHeroes))
+		# WagerBoss += 100 * PerksPicked[Iterator]
+	WagerBoss += 100 * (1.4 ** Sum - 1)
+	WagerString = "Wager\nBoss {0} | {1} Heroes".format(ceil(WagerBoss/50)*50, ceil(WagerHeroes/50)*50)
 
 
 
@@ -379,7 +379,7 @@ rule "Scale HUD":
 	
 	hudSubtext(getAllPlayers(),
 		StringScale,
-		HudPosition.RIGHT, 0, Color.RED if (SHRINK_MULT ** PerkShrink * BOON_BOSS_SIZE_MULT ** BoonBossBigger) < 1 else Color.LIME_GREEN, HudReeval.STRING_AND_COLOR, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED if (SHRINK_MULT ** PerkShrink * BOON_BOSS_SIZE_MULT ** BoonBossBigger) < 1 else Color.LIME_GREEN, HudReeval.STRING_AND_COLOR, SpecVisibility.ALWAYS
 	)
 	TextScale = getLastCreatedText()
 	waitUntil(PerkShrink == 0 and BoonBossBigger == 0, 99999)
@@ -1071,7 +1071,7 @@ rule "Picking Boss":
 	@Condition PickingBoss == true
 	
 	Timer = BOSS_PICKING_TIME
-	hudSubtext(getAllPlayers(), "Choose The Boss\n{0}s Remain ({1} to choose)".format(ceil(Timer), buttonString(Button.PRIMARY_FIRE)), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.ALWAYS)
+	hudSubtext(getAllPlayers(), "Choose {1} The Boss\n{0}s Remain".format(ceil(Timer), buttonString(Button.PRIMARY_FIRE)), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.ALWAYS)
 	InstructionText = getLastCreatedText()
 	wait(5)
 	waitUntil(Timer == 0 or PlayerVotes == getNumberOfPlayers(Team.ALL), 60)
@@ -1092,18 +1092,17 @@ rule "Picking Perks":
 	
 	Timer = PERK_PICKING_TIME
 	hudSubtext(
-		[p for p in getAllPlayers() if p != PickedBoss],
-		"Choose one perk to give the Boss ({1})\n{0}s Remain ({2} to add, {3} to remove, {4} to vote skip timer)".format(
+		PickedBoss,
+		"Choose Perks\n{0}s Remain\nAdd: {1}   Remove: {2}\nVote Skip: {3}".format(
 			ceil(Timer),
-			PickedBoss,
 			buttonString(Button.PRIMARY_FIRE),
 			buttonString(Button.SECONDARY_FIRE),
 			buttonString(Button.INTERACT)
 		), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.ALWAYS)
 	InstructionText[0] = getLastCreatedText()
 	hudSubtext(
-		[p for p in getAllPlayers() if p == PickedBoss],
-		"Activate Desired Boons (For the Heroes)\n{0}s Remain ({1} to add, {2} to remove, {3} to vote skip timer)".format(
+		[p for p in getAllPlayers() if p != PickedBoss],
+		"Choose Boons\n{0}s Remain\nAdd: {1}   Remove: {2}\nVote Skip: {3}".format(
 			ceil(Timer),
 			buttonString(Button.PRIMARY_FIRE),
 			buttonString(Button.SECONDARY_FIRE),
