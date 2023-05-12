@@ -4,6 +4,7 @@ settings {
 		"modeName": "Pick Your Boss"
 	},
 	"lobby": {
+		"enableMatchVoiceChat": true,
 		"team1Slots": 6,
 		"team2Slots": 6,
 		"swapTeamsAfterMatch": false
