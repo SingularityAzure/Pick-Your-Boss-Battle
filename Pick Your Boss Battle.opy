@@ -73,12 +73,12 @@ globalvar PayloadBicthSpawnTimer
 #!define PerkMoveSpeed PerksPicked[8]
 #!define PerkKnockback PerksPicked[9]
 #!define PerkHealingReceived PerksPicked[10]
-#!define PerkFireDamage PerksPicked[11]
-#!define PerkShrink PerksPicked[12]
-#!define PerkKnockbackImmunity PerksPicked[13]
-#!define PerkProjectileSpeed PerksPicked[14]
-#!define PerkPayloadBicth PerksPicked[15]
-#!define PerkEliminationHeal PerksPicked[16]
+# !define PerkFireDamage PerksPicked[11]
+#!define PerkShrink PerksPicked[11]
+#!define PerkKnockbackImmunity PerksPicked[12]
+#!define PerkProjectileSpeed PerksPicked[13]
+#!define PerkPayloadBicth PerksPicked[14]
+#!define PerkEliminationHeal PerksPicked[15]
 
 #!define PerkStringUltCharge PerkStrings[0]
 #!define PerkStringHealthAddition PerkStrings[1]
@@ -91,10 +91,10 @@ globalvar PayloadBicthSpawnTimer
 #!define PerkStringMoveSpeed PerkStrings[8]
 #!define PerkStringKnockback PerkStrings[9]
 #!define PerkStringHealingReceived PerkStrings[10]
-#!define PerkStringFireDamage PerkStrings[11]
-#!define StringScale PerkStrings[12]
-#!define PerkStringProjectileSpeed PerkStrings[14]
-#!define PerkStringEliminationHeal PerkStrings[16]
+# !define PerkStringFireDamage PerkStrings[11]
+#!define StringScale PerkStrings[11]
+#!define PerkStringProjectileSpeed PerkStrings[13]
+#!define PerkStringEliminationHeal PerkStrings[15]
 
 #!define PerkTextUltCharge PerkTexts[0]
 #!define PerkTextHealthAddition PerkTexts[1]
@@ -107,14 +107,14 @@ globalvar PayloadBicthSpawnTimer
 #!define PerkTextMoveSpeed PerkTexts[8]
 #!define PerkTextKnockback PerkTexts[9]
 #!define PerkTextHealingReceived PerkTexts[10]
-#!define PerkTextFireDamage PerkTexts[11]
-#!define TextScale PerkTexts[12]
-#!define PerkTextKnockbackImmunity PerkTexts[13]
-#!define PerkTextProjectileSpeed PerkTexts[14]
-#!define PerkTextPayloadBicth PerkTexts[15]
-#!define PerkTextEliminationHeal PerkTexts[16]
+# !define PerkTextFireDamage PerkTexts[11]
+#!define TextScale PerkTexts[11]
+#!define PerkTextKnockbackImmunity PerkTexts[12]
+#!define PerkTextProjectileSpeed PerkTexts[13]
+#!define PerkTextPayloadBicth PerkTexts[14]
+#!define PerkTextEliminationHeal PerkTexts[15]
 
-#!define LAST_PERK_INDEX 16
+#!define LAST_PERK_INDEX 15
 
 #!define BoonUltCharge BoonsPicked[0]
 #!define BoonSelfResurrect BoonsPicked[1]
@@ -144,17 +144,17 @@ globalvar PayloadBicthSpawnTimer
 #!define LAST_BOON_INDEX 7
 
 #!define ULT_CHARGE_MULT 2.0
-#!define HEALTH_ADD_MULT 2.0
-#!define ARMOR_ADD_MULT 1.75
-#!define SHIELD_ADD_MULT 1.5
+#!define HEALTH_ADD_MULT 0.75
+#!define ARMOR_ADD_MULT 0.75
+#!define SHIELD_ADD_MULT 0.75
 #!define DAMAGE_RECEIVE_MULT 0.7
-#!define DAMAGE_DEALT_MULT 1.3
+#!define DAMAGE_DEALT_MULT 0.5
 #!define COOLDOWN_MULT 0.5
 #!define REGEN_RATE 15
-#!define MOVE_SPEED_MULT 1.3
+#!define MOVE_SPEED_MULT 1.2
 #!define KNOCKBACK_MULT 2.5
 #!define HEALING_RECEIVED_MULT 2.0
-#!define FIRE_DAMAGE_MULT 0.5
+#!define FIRE_DAMAGE_MULT 0.4
 #!define FIRE_DAMAGE_DURATION 3
 #!define SHRINK_MULT 0.8
 #!define PROJECTILE_SPEED_MULT 2.0
@@ -166,7 +166,7 @@ globalvar PayloadBicthSpawnTimer
 #!define BOON_INVIS_CHARGE_SECONDS 3.0
 #!define BOON_TANK_HEALTH_MULT 1.8
 #!define BOON_DAMAGE_DAMAGE_MULT 1.3
-#!define BOON_SUPPORT_MOVE_SPEED_MULT 1.3
+#!define BOON_SUPPORT_MOVE_SPEED_MULT 1.2
 #!define BOON_HEALTH_ABSORB_MULT 0.25
 #!define BOON_BOSS_SIZE_MULT 1.15
 
@@ -192,6 +192,7 @@ playervar PrevHero
 playervar RecallHealth
 playervar RecallHealthIndex
 playervar InvisibilityTimer
+playervar MaxHealthBase
 
 def addRandomPerk():
 	PerksPicked[random.randint(0, LAST_PERK_INDEX)] += 1
@@ -204,44 +205,44 @@ def uStringScale():
 
 
 def uPerkStringUltCharge():
-	PerkStringUltCharge = "Ultimate Charge Rate: {0}%".format(100 * (ULT_CHARGE_MULT ** PerkUltCharge))
+	PerkStringUltCharge = "Ultimate Charge Rate: {0}%".format(round(100 * (ULT_CHARGE_MULT ** PerkUltCharge)))
 
 def uPerkStringHealthAddition():
-	PerkStringHealthAddition = "Health Multiplier: {0}%".format(100 * (HEALTH_ADD_MULT ** PerkHealthAddition))
+	PerkStringHealthAddition = "Health Multiplier: {0}%".format(round(100 * (1 + HEALTH_ADD_MULT * PerkHealthAddition)))
 
 def uPerkStringArmorAddition():
-	PerkStringArmorAddition = "Added Armor: {0}%".format(100 * (-1 + ARMOR_ADD_MULT ** PerkArmorAddition))
+	PerkStringArmorAddition = "Added Armor: {0}%".format(round(100 * (ARMOR_ADD_MULT * PerkArmorAddition)))
 
 def uPerkStringShieldAddition():
-	PerkStringShieldAddition = "Added Shields: {0}%".format(100 * (-1 + SHIELD_ADD_MULT ** PerkShieldAddition))
+	PerkStringShieldAddition = "Added Shields: {0}%".format(round(100 * (SHIELD_ADD_MULT * PerkShieldAddition)))
 
 def uPerkStringDamageReduction():
-	PerkStringDamageReduction = "Damage Reduction: {0}%".format(100 * (1 - DAMAGE_RECEIVE_MULT**PerkDamageReduction))
+	PerkStringDamageReduction = "Damage Reduction: {0}%".format(round(100 * (1 - DAMAGE_RECEIVE_MULT**PerkDamageReduction)))
 
 def uPerkStringDamageDealt():
-	PerkStringDamageDealt = "Damage Dealt: {0}%".format(100 * DAMAGE_DEALT_MULT**PerkDamageDealt)
+	PerkStringDamageDealt = "Damage Dealt: {0}%".format(round(100 * (1 + DAMAGE_DEALT_MULT*PerkDamageDealt)))
 
 def uPerkStringCooldowns():
-	PerkStringCooldownReduction = "Cooldowns: {0}%".format(100 * COOLDOWN_MULT**PerkCooldownReduction)
+	PerkStringCooldownReduction = "Cooldowns: {0}%".format(round(100 * COOLDOWN_MULT**PerkCooldownReduction))
 
 def uPerkStringHealthRegen():
-	PerkStringHealthRegen = "Health Regen: {0}hp/s".format(REGEN_RATE * PerkHealthRegen * HEALING_RECEIVED_MULT ** PerkHealingReceived)
+	PerkStringHealthRegen = "Health Regen: {0}hp/s".format(round(REGEN_RATE * PerkHealthRegen * HEALING_RECEIVED_MULT ** PerkHealingReceived))
 
 def uPerkStringMoveSpeed():
-	PerkStringMoveSpeed = "Move Speed: {0}%".format(100 * MOVE_SPEED_MULT ** PerkMoveSpeed)
+	PerkStringMoveSpeed = "Move Speed: {0}%".format(round(100 * MOVE_SPEED_MULT ** PerkMoveSpeed))
 
 def uPerkStringKnockback():
-	PerkStringKnockback = "Knockback: {0}%".format(100 * KNOCKBACK_MULT ** PerkKnockback)
+	PerkStringKnockback = "Knockback: {0}%".format(round(100 * KNOCKBACK_MULT ** PerkKnockback))
 
 def uPerkStringHealingReceived():
-	PerkStringHealingReceived = "Healing Received: {0}%".format(100 * HEALING_RECEIVED_MULT ** PerkHealingReceived)
+	PerkStringHealingReceived = "Healing Received: {0}%".format(round(100 * HEALING_RECEIVED_MULT ** PerkHealingReceived))
 	uPerkStringHealthRegen()
 
-def uPerkStringFireDamage():
-	PerkStringFireDamage = "Fire Damage: {0}%".format(100 * (-1 + (1+FIRE_DAMAGE_MULT) ** PerkFireDamage))
+# def uPerkStringFireDamage():
+# 	PerkStringFireDamage = "Fire Damage: {0}%".format(round(100 * (-1 + (1+FIRE_DAMAGE_MULT) ** PerkFireDamage)))
 
 def uPerkStringProjSpeed():
-	PerkStringProjectileSpeed = "Projectile Speed: {0}%".format(100 * (PROJECTILE_SPEED_MULT ** PerkProjectileSpeed))
+	PerkStringProjectileSpeed = "Projectile Speed: {0}%".format(round(100 * (PROJECTILE_SPEED_MULT ** PerkProjectileSpeed)))
 
 def uPerkStringEliminationHeal():
 	PerkStringEliminationHeal = "Heal {0}hp on Elim".format(ELIMINATION_HEALING * PerkEliminationHeal)
@@ -249,7 +250,7 @@ def uPerkStringEliminationHeal():
 
 
 def uBoonStringUltCharge():
-	BoonStringUltCharge = "Ultimate Charge Rate: {0}%".format(100 * (BOON_ULT_CHARGE_MULT ** BoonUltCharge))
+	BoonStringUltCharge = "Ultimate Charge Rate: {0}%".format(round(100 * (BOON_ULT_CHARGE_MULT ** BoonUltCharge)))
 
 def uBoonStringSelfResurrect():
 	BoonStringSelfResurrect = "Resurrects Available: {0}".format(BOON_SELF_RESURRECTS_COUNT * BoonSelfResurrect)
@@ -258,16 +259,16 @@ def uBoonStringInvisibility():
 	BoonStringInvisibility = "Invisibility in {0}s".format(BOON_INVIS_CHARGE_SECONDS)
 
 def uBoonStringTankHealth():
-	BoonStringTankHealth = "Tank Health: {0}%".format(100 * (BOON_TANK_HEALTH_MULT ** BoonTankHealth))
+	BoonStringTankHealth = "Tank Health: {0}%".format(round(100 * (BOON_TANK_HEALTH_MULT ** BoonTankHealth)))
 
 def uBoonStringDamageDamage():
-	BoonStringDamageDamage = "Damage Hero Damage: {0}%".format(100 * (BOON_DAMAGE_DAMAGE_MULT ** BoonDamageDamage))
+	BoonStringDamageDamage = "Damage Hero Damage: {0}%".format(round(100 * (BOON_DAMAGE_DAMAGE_MULT ** BoonDamageDamage)))
 
 def uBoonStringSupportMoveSpeed():
-	BoonStringSupportMoveSpeed = "Support Move Speed: {0}%".format(100 * (BOON_SUPPORT_MOVE_SPEED_MULT ** BoonSupportMoveSpeed))
+	BoonStringSupportMoveSpeed = "Support Move Speed: {0}%".format(round(100 * (BOON_SUPPORT_MOVE_SPEED_MULT ** BoonSupportMoveSpeed)))
 
 def uBoonStringHealthAbsorption():
-	BoonStringHealthAbsorption = "Health Absorption: {0}%".format(100 * BOON_HEALTH_ABSORB_MULT * BoonHealthAbsorption)
+	BoonStringHealthAbsorption = "Health Absorption: {0}%".format(round(100 * BOON_HEALTH_ABSORB_MULT * BoonHealthAbsorption))
 
 
 
@@ -288,6 +289,12 @@ def uWager():
 
 
 
+# rule "Workshop Debug HUD":
+	
+# 	hudHeader(getAllPlayers(), "Load: {0}, Avg: {1}, Peak: {2}".format(getServerLoad(), getAverageServerLoad(), getPeakServerLoad()), HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+
+
+
 rule "Init Global Variables":
 	PlayerVotes = 0
 	TeamBoss = random.choice([Team.1, Team.2])
@@ -300,17 +307,17 @@ rule "Init Global Variables":
 	PayloadBicthSpawnTimer = PAYLOAD_BITCH_COOLDOWN
 	PerksToPick = [
 		"Ultimate Charge\nRate +100%",
-		"Health\n+100%",
+		"Health\n+75%",
 		"Armor\n+75%",
-		"Shields\n+50%",
+		"Shields\n+75%",
 		"Damage Taken\n-30%",
-		"Damage Dealt\n+30%",
+		"Damage Dealt\n+50%",
 		"Cooldowns\n-50%",
 		"Regen\n15hp/s",
-		"Move Speed\n+30%",
+		"Move Speed\n+20%",
 		"Knockback Dealt\n+150%",
 		"Healing Received\n+100%",
-		"Fire Damage\n+50%",
+		# "Fire Damage\n+40%",
 		"Scale\n-20%",
 		"Knockback Immunity",
 		"Projectile Speed\n+100%",
@@ -323,14 +330,14 @@ rule "Init Global Variables":
 		2, # armor
 		2, # shields
 		2, # damage reduction
-		3, # damage dealt
+		4, # damage dealt
 		2, # cooldowns
-		2, # regen
-		3, # move speed
+		1, # regen
+		2, # move speed
 		1, # knockback
 		1, # healing received
-		1, # fire damage
-		1, # shrink
+		# 1, # fire damage
+		2, # shrink
 		1, # knockback immunity
 		1, # projectile speed
 		1, # payload bitch
@@ -344,7 +351,7 @@ rule "Init Global Variables":
 		"Invisibility\nupon 3s of no shooting\nand slow movement",
 		"Tank Heroes\nHealth +80%",
 		"Damage Heroes\nDamage Dealt +30%",
-		"Support Heroes\nMove Speed +30%",
+		"Support Heroes\nMove Speed +20%",
 		"Health Absorption\n+25%",
 		"Boss Scale\n+15%",
 	]
@@ -472,7 +479,7 @@ rule "Ult Charge Perk HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringUltCharge,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextUltCharge = getLastCreatedText()
 	waitUntil(PerkUltCharge == 0, 99999)
@@ -483,7 +490,7 @@ rule "Health Addition Perk HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringHealthAddition,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextHealthAddition = getLastCreatedText()
 	waitUntil(PerkHealthAddition == 0, 99999)
@@ -494,7 +501,7 @@ rule "PerkArmorAddition HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringArmorAddition,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextArmorAddition = getLastCreatedText()
 	waitUntil(PerkArmorAddition == 0, 99999)
@@ -505,7 +512,7 @@ rule "PerkShieldAddition HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringShieldAddition,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextShieldAddition = getLastCreatedText()
 	waitUntil(PerkShieldAddition == 0, 99999)
@@ -516,7 +523,7 @@ rule "PerkDamageReduction HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringDamageReduction,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextDamageReduction = getLastCreatedText()
 	waitUntil(PerkDamageReduction == 0, 99999)
@@ -527,7 +534,7 @@ rule "PerkDamageDealt HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringDamageDealt,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextDamageDealt = getLastCreatedText()
 	waitUntil(PerkDamageDealt == 0, 99999)
@@ -538,7 +545,7 @@ rule "PerkCooldownReduction HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringCooldownReduction,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextCooldownReduction = getLastCreatedText()
 	waitUntil(PerkCooldownReduction == 0, 99999)
@@ -549,7 +556,7 @@ rule "PerkHealthRegen HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringHealthRegen,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextHealthRegen = getLastCreatedText()
 	waitUntil(PerkHealthRegen == 0, 99999)
@@ -560,7 +567,7 @@ rule "PerkMoveSpeed HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringMoveSpeed,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextMoveSpeed = getLastCreatedText()
 	waitUntil(PerkMoveSpeed == 0, 99999)
@@ -571,7 +578,7 @@ rule "PerkKnockback HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringKnockback,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextKnockback = getLastCreatedText()
 	waitUntil(PerkKnockback == 0, 99999)
@@ -582,29 +589,29 @@ rule "PerkHealingReceived HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringHealingReceived,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextHealingReceived = getLastCreatedText()
 	waitUntil(PerkHealingReceived == 0, 99999)
 	destroyHudText(PerkTextHealingReceived)
 
-rule "PerkFireDamage HUD":
-	@Condition PerkFireDamage > 0
+# rule "PerkFireDamage HUD":
+# 	@Condition PerkFireDamage > 0
 	
-	hudSubtext(getAllPlayers(),
-		PerkStringFireDamage,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
-	)
-	PerkTextFireDamage = getLastCreatedText()
-	waitUntil(PerkFireDamage == 0, 99999)
-	destroyHudText(PerkTextFireDamage)
+# 	hudSubtext(getAllPlayers(),
+# 		PerkStringFireDamage,
+# 		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+# 	)
+# 	PerkTextFireDamage = getLastCreatedText()
+# 	waitUntil(PerkFireDamage == 0, 99999)
+# 	destroyHudText(PerkTextFireDamage)
 
 rule "PerkKnockbackImmunity HUD":
 	@Condition PerkKnockbackImmunity > 0
 	
 	hudSubtext(getAllPlayers(),
 		"Knockback Immunity",
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.NONE, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.NONE, SpecVisibility.ALWAYS
 	)
 	PerkTextKnockbackImmunity = getLastCreatedText()
 	waitUntil(PerkKnockbackImmunity == 0, 99999)
@@ -615,7 +622,7 @@ rule "PerkProjectileSpeed HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringProjectileSpeed,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextProjectileSpeed = getLastCreatedText()
 	waitUntil(PerkProjectileSpeed == 0, 99999)
@@ -626,7 +633,7 @@ rule "PerkPayloadBicth HUD":
 	
 	hudSubtext(getAllPlayers(),
 		"Payload Bitch {0}s".format(ceil(PayloadBicthSpawnTimer)),
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextPayloadBicth = getLastCreatedText()
 	waitUntil(PerkPayloadBicth == 0, 99999)
@@ -637,7 +644,7 @@ rule "PerkEliminationHeal HUD":
 	
 	hudSubtext(getAllPlayers(),
 		PerkStringEliminationHeal,
-		HudPosition.RIGHT, 0, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
+		HudPosition.RIGHT, 1, Color.RED, HudReeval.STRING, SpecVisibility.ALWAYS
 	)
 	PerkTextEliminationHeal = getLastCreatedText()
 	waitUntil(PerkEliminationHeal == 0, 99999)
@@ -879,15 +886,22 @@ rule "Health/Armor/Shield Perk":
 	@Event eachPlayer
 	@Condition DonePicking == true
 	@Condition PickedBoss == eventPlayer
-	@Condition PerkHealthAddition > 0 or PerkArmorAddition > 0 or PerkShieldAddition > 0
+	@Condition PerkHealthAddition > 0 or PerkArmorAddition > 0 or PerkShieldAddition > 0 or eventPlayer.getCurrentHero() not in getTankHeroes()
 	
+	eventPlayer.PrevHero = eventPlayer.getCurrentHero()
 	eventPlayer.removeAllHealthPools()
-	eventPlayer.setMaxHealth(100 * HEALTH_ADD_MULT**PerkHealthAddition)
+	eventPlayer.setMaxHealth(100)
+	wait()
+	eventPlayer.MaxHealthBase = eventPlayer.getMaxHealth()
+	eventPlayer.setMaxHealth(100 * (1 + HEALTH_ADD_MULT*PerkHealthAddition) * (1.5 if eventPlayer.getCurrentHero() not in getTankHeroes() else 1))
+	wait()
 	eventPlayer.setHealth(eventPlayer.getMaxHealth())
 	if PerkArmorAddition > 0:
-		eventPlayer.addHealthPool(Health.ARMOR, 25*ceil(eventPlayer.getMaxHealth() * (-1 + ARMOR_ADD_MULT**PerkArmorAddition) / 25), true, false)
+		eventPlayer.addHealthPool(Health.ARMOR, 25*ceil(eventPlayer.MaxHealthBase * (ARMOR_ADD_MULT*PerkArmorAddition) / 25), true, false)
 	if PerkShieldAddition > 0:
-		eventPlayer.addHealthPool(Health.SHIELDS, 25*ceil(eventPlayer.getMaxHealth() * (-1 + SHIELD_ADD_MULT**PerkShieldAddition) / 25), true, false)
+		eventPlayer.addHealthPool(Health.SHIELDS, 25*ceil(eventPlayer.MaxHealthBase * (SHIELD_ADD_MULT*PerkShieldAddition) / 25), true, false)
+	waitUntil(eventPlayer.getCurrentHero() != eventPlayer.PrevHero, 99999)
+	goto RULE_START
 
 rule "Health/Armor Tracer Recall Workshop Bug Fix":
 	@Event eachPlayer
@@ -927,7 +941,7 @@ rule "Damage Dealt Perk":
 	@Condition PickedBoss == eventPlayer
 	@Condition PerkDamageDealt > 0
 	
-	eventPlayer.setDamageDealt(100 * DAMAGE_DEALT_MULT ** PerkDamageDealt)
+	eventPlayer.setDamageDealt(100 * (1 + DAMAGE_DEALT_MULT * PerkDamageDealt))
 
 rule "Health Regen Perk":
 	@Event eachPlayer
@@ -977,23 +991,23 @@ rule "Healing Received Perk":
 	
 	eventPlayer.setHealingReceived(100 * HEALING_RECEIVED_MULT ** PerkHealingReceived)
 
-rule "Fire Damage Perk":
-	@Event playerDealtDamage
-	@Condition DonePicking == true
-	@Condition PickedBoss == eventPlayer
-	@Condition PerkFireDamage > 0
-	@Condition eventAbility != null
+# rule "Fire Damage Perk":
+# 	@Event playerDealtDamage
+# 	@Condition DonePicking == true
+# 	@Condition PickedBoss == eventPlayer
+# 	@Condition PerkFireDamage > 0
+# 	@Condition eventAbility != null
 	
-	victim.startDoT(eventPlayer, FIRE_DAMAGE_DURATION, eventDamage * FIRE_DAMAGE_MULT ** PerkFireDamage / FIRE_DAMAGE_DURATION)
-	victim.setStatusEffect(null, Status.BURNING, FIRE_DAMAGE_DURATION)
+# 	victim.startDoT(eventPlayer, FIRE_DAMAGE_DURATION, eventDamage * FIRE_DAMAGE_MULT ** PerkFireDamage / FIRE_DAMAGE_DURATION)
+# 	victim.setStatusEffect(null, Status.BURNING, FIRE_DAMAGE_DURATION)
 
-rule "Death Cleanses Fire Damage":
-	@Event playerDied
-	@Condition PerkFireDamage > 0
+# rule "Death Cleanses Fire Damage":
+# 	@Event playerDied
+# 	@Condition PerkFireDamage > 0
 	
-	wait()
-	eventPlayer.stopAllDoT()
-	eventPlayer.clearStatusEffect(Status.BURNING)
+# 	wait()
+# 	eventPlayer.stopAllDoT()
+# 	eventPlayer.clearStatusEffect(Status.BURNING)
 	
 
 rule "Knockback Immunity Perk":
@@ -1072,7 +1086,7 @@ rule "Picking Boss":
 	@Condition PickingBoss == true
 	
 	Timer = BOSS_PICKING_TIME
-	hudSubtext(getAllPlayers(), "Choose {1} The Boss\n{0}s Remain".format(ceil(Timer), buttonString(Button.PRIMARY_FIRE)), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.ALWAYS)
+	hudSubtext(getAllPlayers(), "Vote {1} for the Boss\n{0}s Remain".format(ceil(Timer), buttonString(Button.PRIMARY_FIRE)), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.ALWAYS)
 	InstructionText = getLastCreatedText()
 	wait(5)
 	waitUntil(Timer == 0 or PlayerVotes == getNumberOfPlayers(Team.ALL), 60)
@@ -1094,20 +1108,24 @@ rule "Picking Perks":
 	Timer = PERK_PICKING_TIME
 	hudSubtext(
 		PickedBoss,
-		"Choose Perks\n{0}s Remain\nAdd: {1}   Remove: {2}\nVote Skip: {3}".format(
+		"Choose Perks\n{0}s Remain\nAdd: {1}   Remove: {2}\nVote to Continue: {3} -- {4}/{5}".format(
 			ceil(Timer),
 			buttonString(Button.PRIMARY_FIRE),
 			buttonString(Button.SECONDARY_FIRE),
-			buttonString(Button.INTERACT)
+			buttonString(Button.INTERACT),
+			PlayerVotes,
+			ceil(getNumberOfPlayers(Team.ALL)/2.0)
 		), HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.ALWAYS)
 	InstructionText[0] = getLastCreatedText()
 	hudSubtext(
 		[p for p in getAllPlayers() if p != PickedBoss],
-		"Choose Boons\n{0}s Remain\nAdd: {1}   Remove: {2}\nVote Skip: {3}".format(
+		"Choose Boons\n{0}s Remain\nAdd: {1}   Remove: {2}\nVote to Continue: {3} -- {4}/{5}".format(
 			ceil(Timer),
 			buttonString(Button.PRIMARY_FIRE),
 			buttonString(Button.SECONDARY_FIRE),
-			buttonString(Button.INTERACT)
+			buttonString(Button.INTERACT),
+			PlayerVotes,
+			ceil(getNumberOfPlayers(Team.ALL)/2.0)
 		), HudPosition.TOP, 1, Color.WHITE, HudReeval.STRING, SpecVisibility.ALWAYS)
 	InstructionText[1] = getLastCreatedText()
 	wait(5)
@@ -1214,13 +1232,13 @@ rule "Pick Perks Player UI":
 					uPerkStringKnockback()
 				case 10:
 					uPerkStringHealingReceived()
+				# case 11:
+				# 	uPerkStringFireDamage()
 				case 11:
-					uPerkStringFireDamage()
-				case 12:
 					uStringScale()
-				case 14:
+				case 13:
 					uPerkStringProjSpeed()
-				case 16:
+				case 15:
 					uPerkStringEliminationHeal()
 			uWager()
 	for eventPlayer.Iterator in range(len(eventPlayer.Texts)):
